@@ -1,6 +1,6 @@
 const path = require("path");
 
-module.exports = ({ fileService, converterService, ctx }) => async (
+module.exports = ({ fileService, converterService, mailService, ctx }) => async (
   message
 ) => {
   const { document } = message;
@@ -21,14 +21,17 @@ module.exports = ({ fileService, converterService, ctx }) => async (
   );
 
   try {
-    const mobiBuffer = await converterService.toMobi({
+    const { mobiBuffer, mobiFileName } = await converterService.toMobi({
       fileName: document.file_name,
       filePath: inputFilePath,
     });
 
-    // TODO Send to kindle email
+    await mailService.sendBookToEmail({
+      fileName: mobiFileName,
+      fileBuffer: mobiBuffer
+    });
 
-    // TODO Send notification
+    ctx.reply(`¡Tu libro ${mobiFileName} se ha enviado correctamente! 👍`);
   } catch (e) {
     ctx.reply(`Ha habido un problema al procesar el documento: ${e.message}`);
   }

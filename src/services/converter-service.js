@@ -10,7 +10,7 @@ const mobiConverter = (info) => {
   throw new Error("Not implemented");
 };
 
-const epubConverter = async ({ filePath, fileName }) => {
+const epubConverter = async ({ filePath }) => {
   const fileBuffer = await fs.readFile(filePath);
 
   return new Promise((resolve, reject) => {
@@ -42,11 +42,12 @@ const toMobi = async (fileInfo) => {
     fileName.lastIndexOf(".")
   );
   const mobiFileName = `${fileNameWithoutExtension}.mobi`;
+  const mobiBuffer = await converter.convert(fileInfo);
 
-  return converter.convert({
-    ...fileInfo,
+  return {
+    mobiBuffer,
     mobiFileName,
-  });
+  };
 };
 
 module.exports = () => {

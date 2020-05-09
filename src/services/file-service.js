@@ -29,7 +29,7 @@ const storeFile = async (fileData, destinationPath, fileName) => {
   });
 };
 
-module.exports = (ctx) => {
+module.exports = ({ ctx }) => {
   this.ctx = ctx;
 
   return {

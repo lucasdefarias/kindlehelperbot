@@ -1,18 +1,19 @@
 const { Telegraf } = require('telegraf');
-const { BOT_TOKEN } = require('./config');
+const config = require('./config');
 const services = require('./services');
 const useCases = require('./use-cases');
 const container = {};
 
 const init = (ctx, next) => {
   Object.keys(services).forEach(service => {
-    container[service] = services[service](ctx);
+    container[service] = services[service]({ ctx });
   });
   container.ctx = ctx;
   next();
 };
 
 const app = async () => {
+  const { BOT_TOKEN } = config;
   if (!BOT_TOKEN) {
     throw new Error('Missing bot token');
   }
