@@ -1,0 +1,28 @@
+{
+  "name": "kindlehelperbot",
+  "version": "0.0.0",
+  "description": "Bot that converts and sends file to kindle email",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "develop": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bot",
+    "telegram",
+    "ebook",
+    "epub",
+    "pdf",
+    "mobi"
+  ],
+  "author": "Lucas de Farias",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "telegraf": "^3.38.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
