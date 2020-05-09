@@ -19,3 +19,9 @@ $ npm install
 # Et voilà! 👌
 $ npm start
 ```
+
+## TODO
+- [ ] Delete temp files
+- [ ] Manage user email (add users db)
+- [ ] Manage PDF files
+- [ ] Manage Mobi files
