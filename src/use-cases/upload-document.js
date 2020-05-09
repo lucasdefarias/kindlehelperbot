@@ -5,7 +5,7 @@ module.exports = ({ fileService, converterService, mailService, ctx }) => async 
 ) => {
   const { document } = message;
 
-  const documentData = await fileService.getFileData(document.file_id);
+  const documentData = await fileService.getFileData({ ctx }, document.file_id);
   const fileResponse = await fileService.downloadFile(documentData.file_path);
 
   const userDocumentsPath = path.resolve(

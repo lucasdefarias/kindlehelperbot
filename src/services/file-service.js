@@ -3,8 +3,8 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 
-const getFileData = async (fileId) => {
-  return this.ctx.telegram.getFile(fileId);
+const getFileData = async ({ ctx }, fileId) => {
+  return ctx.telegram.getFile(fileId);
 };
 
 const downloadFile = async (filePath) =>
@@ -29,12 +29,8 @@ const storeFile = async (fileData, destinationPath, fileName) => {
   });
 };
 
-module.exports = ({ ctx }) => {
-  this.ctx = ctx;
-
-  return {
-    getFileData: getFileData.bind(this),
-    downloadFile,
-    storeFile,
-  };
-};
+module.exports = {
+      getFileData,
+      downloadFile,
+      storeFile
+    };

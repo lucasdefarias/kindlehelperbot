@@ -33,9 +33,6 @@ const sendBookToEmail = (data) => {
   });
 };
 
-module.exports = () => {
-
-  return {
-    sendBookToEmail
-  };
+module.exports = {
+  sendBookToEmail
 };

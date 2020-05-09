@@ -4,10 +4,13 @@ const services = require('./services');
 const useCases = require('./use-cases');
 const container = {};
 
-const init = (ctx, next) => {
+const initContainer = () => {
   Object.keys(services).forEach(service => {
-    container[service] = services[service]({ ctx });
+    container[service] = services[service];
   });
+};
+
+const contextMiddleware = (ctx, next) => {
   container.ctx = ctx;
   next();
 };
@@ -17,9 +20,11 @@ const app = async () => {
   if (!BOT_TOKEN) {
     throw new Error('Missing bot token');
   }
+  initContainer();
 
   const bot = new Telegraf(BOT_TOKEN);
-  bot.use(init);
+
+  bot.use(contextMiddleware);
   bot.start((ctx) => useCases.startMessageUseCase(ctx)(
     ctx.chat.first_name,
     ctx.botInfo.first_name
@@ -29,7 +34,7 @@ const app = async () => {
     if (ctx.message.document) {
       return useCases
         .uploadDocumentUseCase(container)(ctx.message)
-        .catch(err => ctx.reply('Error: ', err));
+        .catch(() => ctx.reply('Ha habido un error 😔'));
     }
 
     useCases.defaultMessage(ctx)(ctx.message);

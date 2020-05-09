@@ -50,8 +50,6 @@ const toMobi = async (fileInfo) => {
   };
 };
 
-module.exports = () => {
-  return {
+module.exports = {
     toMobi,
-  };
 };
