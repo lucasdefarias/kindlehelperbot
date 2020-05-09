@@ -1,43 +1,40 @@
-const { BOT_TOKEN, TELEGRAM_API_URL } = require('../config');
-const axios = require('axios');
-const fs = require('fs');
-const Path = require('path');
+const { BOT_TOKEN, TELEGRAM_API_URL } = require("../config");
+const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
 
 const getFileData = async (fileId) => {
-    return this.telegram.getFile(fileId);
+  return this.ctx.telegram.getFile(fileId);
 };
 
-const downloadFile = async (filePath) => await axios({
+const downloadFile = async (filePath) =>
+  await axios({
     url: `${TELEGRAM_API_URL}/file/bot${BOT_TOKEN}/${filePath}`,
-    method: 'GET',
-    responseType: 'stream'
-});
+    method: "GET",
+    responseType: "stream",
+  });
 
-const storeFile = async (fileResponse, path, fileName) => {
-    const pathExists = fs.existsSync(path);
-    if (!pathExists) {
-        fs.mkdirSync(path, { recursive: true });
-    }
-    const writer = fs.createWriteStream(Path.resolve(path, fileName));
-    fileResponse.data.pipe(writer);
+const storeFile = async (fileData, destinationPath, fileName) => {
+  const pathExists = fs.existsSync(destinationPath);
+  if (!pathExists) {
+    fs.mkdirSync(destinationPath, { recursive: true });
+  }
+  const filePath = path.resolve(destinationPath, fileName);
+  const writer = fs.createWriteStream(filePath);
+  fileData.pipe(writer);
 
-    return new Promise((resolve, reject) => {
-        writer.on('finish', resolve)
-        writer.on('error', reject)
-    });
-}
-
-const convertFileToMobi = file => {
-  // TODO
+  return new Promise((resolve, reject) => {
+    writer.on("finish", () => resolve(filePath));
+    writer.on("error", reject);
+  });
 };
 
-module.exports = (telegram) => {
-    this.telegram = telegram;
+module.exports = (ctx) => {
+  this.ctx = ctx;
 
-    return {
-        getFileData: getFileData.bind(this),
-        downloadFile,
-        storeFile,
-        convertFileToMobi,
-    }
+  return {
+    getFileData: getFileData.bind(this),
+    downloadFile,
+    storeFile,
+  };
 };

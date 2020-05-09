@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "develop": "nodemon index.js",
+    "debug": "nodemon --inspect index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -20,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
+    "kindlegen": "^1.1.0",
     "telegraf": "^3.38.0"
   },
   "devDependencies": {
